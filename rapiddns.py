@@ -10,7 +10,7 @@ requests.packages.urllib3.disable_warnings()
 class RapidDnsSearch:
     def __init__(self,ip , domain, proxy, output_file_name):
         self.ip=ip if ip else None
-        self.domain = domain if domain else None
+        self.domain = domain.replace("http://", "").replace("https://", "").rstrip("/") if domain else None
         self.proxy = {"http": proxy, "https": proxy} if proxy else None
         self.output_file_name = output_file_name if output_file_name else None
         self.headers = {
@@ -75,4 +75,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
+
