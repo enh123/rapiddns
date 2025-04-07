@@ -36,11 +36,12 @@ class RapidDnsSearch:
             total = selector.xpath('//div[@class="d-flex align-items-left"]/div[3]/span/text()')
             if int(total[0])==0:
                 sys.exit("未查询到任何子域名")
+
+            subdomains = selector.xpath('//table[@id="table"]//tr/td[1]/text()')
+            subdomains = list(set(subdomains))
+            for subdomain in subdomains:
+                self.subdomains.append(subdomain)
             if int(total[0])>100:
-                subdomains = selector.xpath('//table[@id="table"]//tr/td[1]/text()')
-                subdomains = list(set(subdomains))
-                for subdomain in subdomains:
-                    self.subdomains.append(subdomain)
                 for i in range(2,math.ceil(int(total[0])/100)+1):
                     url=f"{self.url}?page={i}"
                     response2 = requests.get(url=url, headers=self.headers, proxies=self.proxy, verify=False)
